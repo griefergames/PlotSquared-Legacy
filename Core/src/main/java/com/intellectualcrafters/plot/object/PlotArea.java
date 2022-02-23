@@ -532,7 +532,7 @@ public abstract class PlotArea {
 
     public boolean hasPlot(UUID uuid) {
         for (Entry<PlotId, Plot> entry : this.plots.entrySet()) {
-            if (entry.getValue().isOwner(uuid)) return true;
+            if (entry.getValue().isOwnerAbs(uuid)) return true;
         }
         return false;
     }
