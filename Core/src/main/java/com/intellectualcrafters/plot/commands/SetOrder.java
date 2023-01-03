@@ -31,12 +31,12 @@ public class SetOrder extends SetCommand {
         Plot basePlot = plot.getBasePlot( false );
 
         if ( !basePlot.hasOwner() ) {
-            player.sendMessage( "§cDieses Grundstück hat keinen Besitzer." );
+            player.sendMessage( "§8[§6GrieferGames§8] §cDieses Grundstück hat keinen Besitzer." );
             return false;
         }
 
         if ( !MathMan.isInteger( value ) ) {
-            player.sendMessage( "§cBitte gebe eine Zahl an." );
+            player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib eine Zahl an." );
             return false;
         }
 
@@ -68,7 +68,7 @@ public class SetOrder extends SetCommand {
             DBFunc.setTimestamp(basePlot, basePlot.getTimestamp());
         }
 
-        player.sendMessage( "§aDu hast die Reihenfolge erfolgreich gesetzt." );
+        player.sendMessage( "§8[§6GrieferGames§8] §aDu hast die Reihenfolge erfolgreich geändert." );
 
         return true;
     }
