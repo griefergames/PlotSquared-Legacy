@@ -116,11 +116,13 @@ public class Visit extends Command {
             C.NOT_VALID_NUMBER.send(player, "(1, " + unsorted.size() + ")");
             return;
         }
-        List<Plot> plots;
+        List<Plot> plots; //sortPlotsByRealTimestamp
         if (shouldSortByArea) {
             plots = PS.get().sortPlots(unsorted, PS.SortType.CREATION_DATE, sortByArea);
+            player.sendMessage( "1" );
         }  else {
             plots = PS.get().sortPlotsByTemp(unsorted);
+            player.sendMessage( "2" );
         }
         final Plot plot = plots.get(page - 1);
         if (!plot.hasOwner()) {

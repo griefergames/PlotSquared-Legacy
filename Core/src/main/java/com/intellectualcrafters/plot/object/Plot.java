@@ -778,6 +778,22 @@ public class Plot {
         }
     }
 
+    public void setTimestamp(long timestamp) {
+        if ( !hasOwner() ) {
+            return;
+        }
+        if ( !isMerged() ) {
+            this.timestamp = timestamp;
+            DBFunc.setTimestamp( this, timestamp );
+            return;
+        }
+
+        for ( Plot current : getConnectedPlots() ) {
+            current.timestamp = timestamp;
+            DBFunc.setTimestamp( current, timestamp );
+        }
+    }
+
     /**
      * Set the plot owner (and update the database)
      *

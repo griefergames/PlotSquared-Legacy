@@ -513,36 +513,47 @@ public class PS{
         return result;
     }
 
-    public List<Plot> sortPlotsByTemp(Collection<Plot> plots) {
-        int max = 0;
+    public List<Plot> sortPlotsByRealTimestamp(Collection<Plot> plots) {
+        ArrayList<Plot> result = new ArrayList<>(plots.size());
+        result.addAll( plots );
+        result.sort(Comparator.comparingLong(Plot::getTimestamp));
+        return result;
+        /*
+                long max = 0;
         int overflowCount = 0;
         for (Plot plot : plots) {
-            if (plot.temp > 0) {
-                if (plot.temp > max) {
-                    max = plot.temp;
+            if (plot.getTimestamp() > 0) {
+                if (plot.getTimestamp() > max) {
+                    max = plot.getTimestamp();
                 }
             } else {
                 overflowCount++;
             }
         }
-        Plot[] array = new Plot[max + 1];
+
+        Map<Long, Plot> plotArray = new HashMap<>();
         List<Plot> overflow = new ArrayList<>(overflowCount);
         for (Plot plot : plots) {
-            if (plot.temp <= 0) {
+            if (plot.getTimestamp() <= 0) {
                 overflow.add(plot);
             } else {
-                array[plot.temp] = plot;
+                plotArray.put( plot.getTimestamp(), plot );
             }
         }
         ArrayList<Plot> result = new ArrayList<>(plots.size());
-        for (Plot plot : array) {
+        for (Plot plot : plotArray.values()) {
             if (plot != null) {
                 result.add(plot);
             }
         }
-        overflow.sort(Comparator.comparingInt(Plot::hashCode));
+        overflow.sort(Comparator.comparingLong(Plot::getTimestamp));
         result.addAll(overflow);
         return result;
+         */
+    }
+
+    public List<Plot> sortPlotsByTemp(Collection<Plot> plots) {
+        return sortPlotsByRealTimestamp(plots);
     }
 
     /**

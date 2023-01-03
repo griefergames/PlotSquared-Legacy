@@ -106,6 +106,7 @@ public class MainCommand extends Command {
             new Alias();
             new SetHome();
             new Cluster();
+            new SetOrder();
             new DebugImportWorlds();
             // Referenced commands
             instance.toggle = new Toggle();

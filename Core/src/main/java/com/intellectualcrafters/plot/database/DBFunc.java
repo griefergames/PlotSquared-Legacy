@@ -112,6 +112,13 @@ public class DBFunc {
         }
         DBFunc.dbManager.setOwner(plot, uuid);
     }
+
+    public static void setTimestamp( Plot plot, long timestamp) {
+        if (plot.temp == -1 || dbManager == null) {
+            return;
+        }
+        DBFunc.dbManager.setTimestamp( plot, timestamp );
+    }
     
     /**
      * Create all settings + (trusted, denied, members)

@@ -49,6 +49,7 @@ public class SQLManager implements AbstractDB {
 
     // Public final
     public final String SET_OWNER;
+    public final String SET_TIMESTAMP;
     public final String GET_ALL_PLOTS;
     public final String CREATE_PLOTS;
     public final String CREATE_SETTINGS;
@@ -113,6 +114,7 @@ public class SQLManager implements AbstractDB {
         this.clusterTasks = new ConcurrentHashMap<>();
         this.prefix = p;
         this.SET_OWNER = "UPDATE `" + this.prefix + "plot` SET `owner` = ? WHERE `plot_id_x` = ? AND `plot_id_z` = ? AND `world` = ?";
+        this.SET_TIMESTAMP = "UPDATE `" + this.prefix + "plot` SET `timestamp` = ? WHERE `plot_id_x` = ? AND `plot_id_z` = ? AND `world` = ?";
         this.GET_ALL_PLOTS = "SELECT `id`, `plot_id_x`, `plot_id_z`, `world` FROM `" + this.prefix + "plot`";
         this.CREATE_PLOTS = "INSERT INTO `" + this.prefix + "plot`(`plot_id_x`, `plot_id_z`, `owner`, `world`, `timestamp`) values ";
         this.CREATE_SETTINGS = "INSERT INTO `" + this.prefix + "plot_settings` (`plot_plot_id`) values ";
@@ -522,6 +524,25 @@ public class SQLManager implements AbstractDB {
                 return SQLManager.this.connection.prepareStatement(SQLManager.this.SET_OWNER);
             }
         });
+    }
+
+    @Override
+    public void setTimestamp( Plot plot, long timestamp ) {
+        addPlotTask( plot, new UniqueStatement("setTimestamp") {
+
+            @Override
+            public void set( PreparedStatement statement ) throws SQLException {
+                statement.setLong(1, timestamp);
+                statement.setInt(2, plot.getId().x);
+                statement.setInt(3, plot.getId().y);
+                statement.setString(4, plot.getArea().toString());
+            }
+
+            @Override
+            public PreparedStatement get() throws SQLException {
+                return SQLManager.this.connection.prepareStatement(SQLManager.this.SET_TIMESTAMP);
+            }
+        } );
     }
 
     @Override

@@ -28,6 +28,8 @@ public interface AbstractDB {
      * @param uuid the uuid of the new owner
      */
     void setOwner(Plot plot, UUID uuid);
+
+    void setTimestamp( Plot plot, long timestamp );
     
     /**
      * Create all settings, and create default helpers, trusted + denied lists.
