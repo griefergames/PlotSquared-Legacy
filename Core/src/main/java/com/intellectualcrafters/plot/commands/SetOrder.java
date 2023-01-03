@@ -68,7 +68,7 @@ public class SetOrder extends SetCommand {
             DBFunc.setTimestamp(basePlot, basePlot.getTimestamp());
         }
 
-        player.sendMessage( "Success" );
+        player.sendMessage( "§aDu hast die Reihenfolge erfolgreich gesetzt." );
 
         return true;
     }
