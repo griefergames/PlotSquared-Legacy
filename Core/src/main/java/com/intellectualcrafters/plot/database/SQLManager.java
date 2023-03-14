@@ -8,37 +8,17 @@ import com.intellectualcrafters.plot.config.Storage;
 import com.intellectualcrafters.plot.flag.Flag;
 import com.intellectualcrafters.plot.flag.FlagManager;
 import com.intellectualcrafters.plot.flag.StringFlag;
-import com.intellectualcrafters.plot.object.BlockLoc;
-import com.intellectualcrafters.plot.object.Plot;
-import com.intellectualcrafters.plot.object.PlotArea;
-import com.intellectualcrafters.plot.object.PlotCluster;
-import com.intellectualcrafters.plot.object.PlotId;
-import com.intellectualcrafters.plot.object.PlotSettings;
-import com.intellectualcrafters.plot.object.RunnableVal;
+import com.intellectualcrafters.plot.object.*;
 import com.intellectualcrafters.plot.object.comment.PlotComment;
 import com.intellectualcrafters.plot.util.MainUtil;
 import com.intellectualcrafters.plot.util.StringMan;
 import com.intellectualcrafters.plot.util.TaskManager;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
+
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Queue;
-import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -532,7 +512,7 @@ public class SQLManager implements AbstractDB {
 
             @Override
             public void set( PreparedStatement statement ) throws SQLException {
-                statement.setLong(1, timestamp);
+                statement.setTimestamp(1, new Timestamp( timestamp ));
                 statement.setInt(2, plot.getId().x);
                 statement.setInt(3, plot.getId().y);
                 statement.setString(4, plot.getArea().toString());
