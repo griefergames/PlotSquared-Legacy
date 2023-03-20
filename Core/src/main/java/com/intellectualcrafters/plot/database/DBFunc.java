@@ -119,6 +119,13 @@ public class DBFunc {
         }
         DBFunc.dbManager.setTimestamp( plot, timestamp );
     }
+
+    public static void setOrder( Plot plot, Integer order ) {
+        if (plot.temp == -1 || dbManager == null) {
+            return;
+        }
+        DBFunc.dbManager.setOrder( plot, order );
+    }
     
     /**
      * Create all settings + (trusted, denied, members)

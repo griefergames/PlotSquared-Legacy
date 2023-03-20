@@ -23,6 +23,11 @@ public class AbstractDBTest implements AbstractDB {
 
     }
 
+    @Override
+    public void setOrder( Plot plot, Integer order ) {
+
+    }
+
     @Override public void createPlotsAndData(List<Plot> plots, Runnable whenDone) {}
 
     @Override public void createPlotSafe(Plot plot, Runnable success, Runnable failure) {}

@@ -37,6 +37,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -513,10 +514,14 @@ public class PS{
         return result;
     }
 
-    public List<Plot> sortPlotsByRealTimestamp(Collection<Plot> plots) {
-        ArrayList<Plot> result = new ArrayList<>(plots.size());
-        result.addAll( plots );
-        result.sort(Comparator.comparingLong(Plot::getTimestamp));
+    public List<Plot> sortPlotsByRealTimestampAndOrdering( Collection<Plot> plots) {
+        ArrayList<Plot> list = new ArrayList<>(plots.size());
+        list.addAll( plots );
+
+        List<Plot> result = list.stream().filter( myObject -> myObject.getOrder() == null ).sorted( Comparator.comparing( Plot::getTimestamp ) ).collect( Collectors.toList() );
+        for ( Plot myObject : list.stream().filter( myObject -> myObject.getOrder() != null ).sorted( Comparator.comparing( Plot::getOrder ) ).collect( Collectors.toList() ) ) {
+            result.add( myObject.getOrder() - 1, myObject );
+        }
         return result;
         /*
                 long max = 0;
@@ -540,20 +545,20 @@ public class PS{
                 plotArray.put( plot.getTimestamp(), plot );
             }
         }
-        ArrayList<Plot> result = new ArrayList<>(plots.size());
+        ArrayList<Plot> list = new ArrayList<>(plots.size());
         for (Plot plot : plotArray.values()) {
             if (plot != null) {
-                result.add(plot);
+                list.add(plot);
             }
         }
         overflow.sort(Comparator.comparingLong(Plot::getTimestamp));
-        result.addAll(overflow);
-        return result;
+        list.addAll(overflow);
+        return list;
          */
     }
 
     public List<Plot> sortPlotsByTemp(Collection<Plot> plots) {
-        return sortPlotsByRealTimestamp(plots);
+        return sortPlotsByRealTimestampAndOrdering(plots);
     }
 
     /**

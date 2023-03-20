@@ -110,6 +110,8 @@ public class Plot {
      */
     private Plot origin;
 
+    private Integer order;
+
     /**
      * Constructor for a new plot.
      * (Only changes after plot.create() will be properly set in the database)
@@ -168,7 +170,7 @@ public class Plot {
      */
     public Plot(PlotId id, UUID owner, HashSet<UUID> trusted, HashSet<UUID> members,
         HashSet<UUID> denied, String alias, BlockLoc position, Collection<Flag> flags,
-        PlotArea area, boolean[] merged, long timestamp, int temp) {
+        PlotArea area, boolean[] merged, long timestamp, int temp, Integer order) {
         this.id = id;
         this.area = area;
         this.owner = owner;
@@ -186,6 +188,7 @@ public class Plot {
         }
         this.timestamp = timestamp;
         this.temp = temp;
+        this.order = order;
     }
 
     public String getWorldName() {
@@ -536,6 +539,10 @@ public class Plot {
         return this.timestamp;
     }
 
+    public Integer getOrder() {
+        return order;
+    }
+
     /**
      * Get if the plot is merged in a direction<br>
      * ------- Actual -------<br>
@@ -792,6 +799,14 @@ public class Plot {
             current.timestamp = timestamp;
             DBFunc.setTimestamp( current, timestamp );
         }
+    }
+
+    public void setOrder(Integer order) {
+        if ( !hasOwner() ) {
+            return;
+        }
+        this.order = order;
+        DBFunc.setOrder( this, order );
     }
 
     /**

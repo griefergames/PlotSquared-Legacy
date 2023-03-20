@@ -127,7 +127,7 @@ public class SinglePlotArea extends GridPlotWorld {
             return p;
         }
         PlotSettings s = p.getSettings();
-        p = new SinglePlot(p.getId(), p.owner, p.getTrusted(), p.getMembers(), p.getDenied(), s.alias,  s.getPosition(), null, this, s.merged, p.getTimestamp(), p.temp);
+        p = new SinglePlot(p.getId(), p.owner, p.getTrusted(), p.getMembers(), p.getDenied(), s.alias,  s.getPosition(), null, this, s.merged, p.getTimestamp(), p.temp, p.getOrder());
         p.getSettings().flags = s.flags;
         return p;
     }

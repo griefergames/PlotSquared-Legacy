@@ -29,9 +29,9 @@ public class SinglePlot extends Plot {
 
     public SinglePlot(PlotId id, UUID owner, HashSet<UUID> trusted, HashSet<UUID> members,
         HashSet<UUID> denied, String alias, BlockLoc position, Collection<Flag> flags,
-        PlotArea area, boolean[] merged, long timestamp, int temp) {
+        PlotArea area, boolean[] merged, long timestamp, int temp, int order) {
         super(id, owner, trusted, members, denied, alias, position, flags, area, merged, timestamp,
-            temp);
+            temp, order);
     }
 
     @Override public String getWorldName() {

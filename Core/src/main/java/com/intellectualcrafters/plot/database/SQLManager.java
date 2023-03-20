@@ -30,6 +30,7 @@ public class SQLManager implements AbstractDB {
     // Public final
     public final String SET_OWNER;
     public final String SET_TIMESTAMP;
+    public final String SET_ORDER;
     public final String GET_ALL_PLOTS;
     public final String CREATE_PLOTS;
     public final String CREATE_SETTINGS;
@@ -100,6 +101,7 @@ public class SQLManager implements AbstractDB {
         this.CREATE_SETTINGS = "INSERT INTO `" + this.prefix + "plot_settings` (`plot_plot_id`) values ";
         this.CREATE_TIERS = "INSERT INTO `" + this.prefix + "plot_%tier%` (`plot_plot_id`, `user_uuid`) values ";
         this.CREATE_PLOT = "INSERT INTO `" + this.prefix + "plot`(`plot_id_x`, `plot_id_z`, `owner`, `world`, `timestamp`) VALUES(?, ?, ?, ?, ?)";
+        this.SET_ORDER = "UPDATE `" + this.prefix + "plot` SET `ordering` = ? WHERE `plot_id_x` = ? AND `plot_id_z` = ? AND `world` = ?";
 
         if (mySQL) {
             this.CREATE_PLOT_SAFE = "INSERT IGNORE INTO `" + this.prefix + "plot`(`plot_id_x`, `plot_id_z`, `owner`, `world`, `timestamp`) SELECT ?, ?, ?, ?, ? FROM DUAL WHERE NOT EXISTS (SELECT null FROM `" + this.prefix + "plot` WHERE `world` = ? AND `plot_id_x` = ? AND `plot_id_z` = ?)";
@@ -521,6 +523,29 @@ public class SQLManager implements AbstractDB {
             @Override
             public PreparedStatement get() throws SQLException {
                 return SQLManager.this.connection.prepareStatement(SQLManager.this.SET_TIMESTAMP);
+            }
+        } );
+    }
+
+    @Override
+    public void setOrder( Plot plot, Integer order ) {
+        addPlotTask( plot, new UniqueStatement("setOrder") {
+
+            @Override
+            public void set( PreparedStatement statement ) throws SQLException {
+                if(order != null) {
+                    statement.setInt( 1, order );
+                } else {
+                    statement.setNull( 1, Types.INTEGER);
+                }
+                statement.setInt(2, plot.getId().x);
+                statement.setInt(3, plot.getId().y);
+                statement.setString(4, plot.getArea().toString());
+            }
+
+            @Override
+            public PreparedStatement get() throws SQLException {
+                return SQLManager.this.connection.prepareStatement(SQLManager.this.SET_ORDER);
             }
         } );
     }
@@ -1704,7 +1729,7 @@ public class SQLManager implements AbstractDB {
     /**
      * Load all plots, helpers, denied, trusted, and every setting from DB into a {@link HashMap}.
      */
-    @Override
+    @Override //HERE
     public HashMap<String, HashMap<PlotId, Plot>> getPlots() {
         HashMap<String, HashMap<PlotId, Plot>> newPlots = new HashMap<>();
         HashMap<Integer, Plot> plots = new HashMap<>();
@@ -1737,8 +1762,7 @@ public class SQLManager implements AbstractDB {
                 int id;
                 String o;
                 UUID user;
-                try (ResultSet resultSet = statement
-                        .executeQuery("SELECT `id`, `plot_id_x`, `plot_id_z`, `owner`, `world`, `timestamp` FROM `" + this.prefix + "plot`")) {
+                try (ResultSet resultSet = statement.executeQuery("SELECT `id`, `plot_id_x`, `plot_id_z`, `owner`, `world`, `timestamp`, `ordering` FROM `" + this.prefix + "plot`")) {
                     ArrayList<Integer> toDelete = new ArrayList<>();
                     while (resultSet.next()) {
                         PlotId plot_id = new PlotId(resultSet.getInt("plot_id_x"), resultSet.getInt("plot_id_z"));
@@ -1784,7 +1808,10 @@ public class SQLManager implements AbstractDB {
                                 time = System.currentTimeMillis() + id;
                             }
                         }
-                        Plot p = new Plot(plot_id, user, new HashSet<UUID>(), new HashSet<UUID>(), new HashSet<UUID>(), "", null, null, null, new boolean[]{false, false, false, false}, time, id);
+                        int order = resultSet.getInt( "ordering" );
+                        boolean isOrderingNull = resultSet.wasNull();
+                        Integer orderValue = isOrderingNull ? null : order;
+                        Plot p = new Plot(plot_id, user, new HashSet<UUID>(), new HashSet<UUID>(), new HashSet<UUID>(), "", null, null, null, new boolean[]{false, false, false, false}, time, id, orderValue);
                         HashMap<PlotId, Plot> map = newPlots.get(areaid);
                         if (map != null) {
                             Plot last = map.put(p.getId(), p);

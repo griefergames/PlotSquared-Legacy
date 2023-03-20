@@ -29,7 +29,9 @@ public interface AbstractDB {
      */
     void setOwner(Plot plot, UUID uuid);
 
-    void setTimestamp( Plot plot, long timestamp );
+    void setTimestamp(Plot plot, long timestamp);
+
+    void setOrder(Plot plot, Integer order);
     
     /**
      * Create all settings, and create default helpers, trusted + denied lists.
