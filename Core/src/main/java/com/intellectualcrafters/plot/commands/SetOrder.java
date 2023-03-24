@@ -55,17 +55,17 @@ public class SetOrder extends SubCommand {
         try {
             int ordering = Integer.parseInt( value );
             if ( ordering <= 0 ) {
-                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl ab der 1. an" );
+                player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib eine Zahl ab der Zahl 1 an." );
                 return false;
             }
 
             if ( ordering > PS.get().getBasePlots( player ).size() ) {
-                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
+                player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
                 return false;
             }
 
             if ( basePlot.getOrder() != null && basePlot.getOrder() == ordering ) {
-                player.sendMessage( "§8[§6GrieferGames§8] §cDieses Grundstück ist bereits auf Position " + ordering );
+                player.sendMessage( "§8[§6GrieferGames§8] §7Dieses Grundstück befindet sich bereits auf Position §e" + ordering + "§7.");
                 return false;
             }
 
@@ -82,11 +82,11 @@ public class SetOrder extends SubCommand {
                 player.sendMessage( "§8[§6GrieferGames§8] §aDu hast die Reihenfolge erfolgreich geändert." );
                 return true;
             } else {
-                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl zwischen 1 und " + plots.size() + " an." );
+                player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib eine Zahl zwischen 1 und " + plots.size() + " an." );
                 return false;
             }
         } catch ( Exception e ) {
-            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
+            player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
         }
         return false;
     }
