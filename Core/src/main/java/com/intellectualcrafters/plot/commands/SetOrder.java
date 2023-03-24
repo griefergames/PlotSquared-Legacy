@@ -65,7 +65,7 @@ public class SetOrder extends SubCommand {
             }
 
             if ( basePlot.getOrder() != null && basePlot.getOrder() == ordering ) {
-                player.sendMessage( "§8[§6GrieferGames§8] §7Dieses Grundstück ist bereits auf Position §e" + ordering + "§7.");
+                player.sendMessage( "§8[§6GrieferGames§8] §7Dieses Grundstück befindet sich bereits auf Position §e" + ordering + "§7.");
                 return false;
             }
 
