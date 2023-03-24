@@ -1,14 +1,18 @@
 package com.intellectualcrafters.plot.commands;
 
 import com.intellectualcrafters.plot.PS;
+import com.intellectualcrafters.plot.config.C;
+import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MathMan;
+import com.intellectualcrafters.plot.util.StringMan;
 import com.plotsquared.general.commands.CommandDeclaration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 /**
  * @author LucGamesYT
@@ -21,10 +25,15 @@ import java.util.stream.Collectors;
         usage = "/plot setorder <value>",
         category = CommandCategory.SETTINGS,
         requiredType = RequiredType.PLAYER )
-public class SetOrder extends SetCommand {
+public class SetOrder extends SubCommand {
 
     @Override
-    public boolean set( PlotPlayer player, Plot plot, String value ) {
+    public boolean onCommand( PlotPlayer player, String[] args ) {
+        Location loc = player.getLocation();
+        Plot plot = loc.getPlotAbs();
+        if ( plot == null ) {
+            return !sendMessage( player, C.NOT_IN_PLOT );
+        }
         Plot basePlot = plot.getBasePlot( false );
 
         if ( !basePlot.hasOwner() ) {
@@ -32,6 +41,12 @@ public class SetOrder extends SetCommand {
             return false;
         }
 
+        if ( !basePlot.isOwner( player.getUUID() ) ) {
+            player.sendMessage( "§8[§6GrieferGames§8] §cDu musst der Grundstücksbesitzer sein." );
+            return false;
+        }
+
+        String value = StringMan.join( args, " " );
         if ( !MathMan.isInteger( value ) ) {
             player.sendMessage( "§8[§6GrieferGames§8] §7Bitte gib eine Zahl an." );
             return false;
@@ -40,6 +55,11 @@ public class SetOrder extends SetCommand {
         int ordering = Integer.parseInt( value );
         if ( ordering <= 0 ) {
             player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl ab der 1. an" );
+            return false;
+        }
+
+        if ( ordering > player.getPlots().size() ) {
+            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + player.getPlots().size() + " an." );
             return false;
         }
 
@@ -61,7 +81,7 @@ public class SetOrder extends SetCommand {
             player.sendMessage( "§8[§6GrieferGames§8] §aDu hast die Reihenfolge erfolgreich geändert." );
             return true;
         } else {
-            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl zwischen 1 und " + plots.size()  + " an." );
+            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl zwischen 1 und " + plots.size() + " an." );
             return false;
         }
     }
