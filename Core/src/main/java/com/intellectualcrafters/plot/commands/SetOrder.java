@@ -42,7 +42,7 @@ public class SetOrder extends SubCommand {
         }
 
         if ( !basePlot.isOwner( player.getUUID() ) ) {
-            player.sendMessage( "§8[§6GrieferGames§8] §cDu musst der Grundstücksbesitzer sein." );
+            player.sendMessage( "§8[§6GrieferGames§8] §cDiese Aktion kann nur der Besitzer des Grundstücks ausführen." );
             return false;
         }
 
@@ -52,37 +52,42 @@ public class SetOrder extends SubCommand {
             return false;
         }
 
-        int ordering = Integer.parseInt( value );
-        if ( ordering <= 0 ) {
-            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl ab der 1. an" );
-            return false;
-        }
+        try {
+            int ordering = Integer.parseInt( value );
+            if ( ordering <= 0 ) {
+                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl ab der 1. an" );
+                return false;
+            }
 
-        if ( ordering > player.getPlots().size() ) {
-            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + player.getPlots().size() + " an." );
-            return false;
-        }
+            if ( ordering > PS.get().getBasePlots( player ).size() ) {
+                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
+                return false;
+            }
 
-        if ( basePlot.getOrder() != null && basePlot.getOrder() == ordering ) {
-            player.sendMessage( "§8[§6GrieferGames§8] §cDieses Grundstück ist bereits auf Position " + ordering );
-            return false;
-        }
+            if ( basePlot.getOrder() != null && basePlot.getOrder() == ordering ) {
+                player.sendMessage( "§8[§6GrieferGames§8] §cDieses Grundstück ist bereits auf Position " + ordering );
+                return false;
+            }
 
-        UUID plotOwner = new ArrayList<>( basePlot.getOwners() ).get( 0 );
-        Set<Plot> plots = PS.get().getPlots( basePlot.hasOwner() ? plotOwner : player.getUUID() );
+            UUID plotOwner = new ArrayList<>( basePlot.getOwners() ).get( 0 );
+            Set<Plot> plots = PS.get().getPlots( basePlot.hasOwner() ? plotOwner : player.getUUID() );
 
-        if ( ordering <= plots.size() ) {
-            Optional<Plot> optional = plots.stream()
-                    .filter( plotValue -> !plotValue.equals( basePlot ) )
-                    .filter( plotValue -> plotValue.getOrder() != null )
-                    .filter( plotValue -> plotValue.getOrder() == ordering ).findFirst();
-            optional.ifPresent( findPlot -> findPlot.setOrder( null ) );
-            basePlot.setOrder( ordering );
-            player.sendMessage( "§8[§6GrieferGames§8] §aDu hast die Reihenfolge erfolgreich geändert." );
-            return true;
-        } else {
-            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl zwischen 1 und " + plots.size() + " an." );
-            return false;
+            if ( ordering <= plots.size() ) {
+                Optional<Plot> optional = plots.stream()
+                        .filter( plotValue -> !plotValue.equals( basePlot ) )
+                        .filter( plotValue -> plotValue.getOrder() != null )
+                        .filter( plotValue -> plotValue.getOrder() == ordering ).findFirst();
+                optional.ifPresent( findPlot -> findPlot.setOrder( null ) );
+                basePlot.setOrder( ordering );
+                player.sendMessage( "§8[§6GrieferGames§8] §aDu hast die Reihenfolge erfolgreich geändert." );
+                return true;
+            } else {
+                player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe eine Zahl zwischen 1 und " + plots.size() + " an." );
+                return false;
+            }
+        } catch ( Exception e ) {
+            player.sendMessage( "§8[§6GrieferGames§8] §cBitte gebe für die Position eine Zahl zwischen 1 und " + PS.get().getBasePlots( player ).size() + " an." );
         }
+        return false;
     }
 }
