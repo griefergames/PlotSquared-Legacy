@@ -2377,6 +2377,9 @@ public class Plot {
             ArrayList<PlotId> ids = new ArrayList<>(merged);
             this.getManager().finishPlotMerge(this.area, ids);
         }
+        if (toReturn) {
+            EventUtil.manager.callMergeSuccess(this, dir);
+        }
         return toReturn;
     }
 

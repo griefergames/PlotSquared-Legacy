@@ -52,6 +52,11 @@ public class EventUtilTest extends EventUtil {
         return false;
     }
 
+    @Override
+    public boolean callMergeSuccess(Plot plot, int dir) {
+        return false;
+    }
+
     @Override public boolean callAutoMerge(Plot plot, ArrayList<PlotId> plots) {
         return false;
     }

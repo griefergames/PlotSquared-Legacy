@@ -58,6 +58,8 @@ import static com.plotsquared.listener.PlayerBlockEventType.*;
 
     public abstract boolean callMerge(Plot plot, int dir, int max);
 
+    public abstract boolean callMergeSuccess(Plot plot, int dir);
+
     public abstract boolean callAutoMerge(Plot plot, ArrayList<PlotId> plots);
 
     public abstract boolean callUnlink(PlotArea area, ArrayList<PlotId> plots);

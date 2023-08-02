@@ -75,6 +75,11 @@ public class BukkitEventUtil extends EventUtil {
     }
 
     @Override
+    public boolean callMergeSuccess(Plot plot, int dir) {
+        return callEvent(new PlotMergeSuccessEvent(BukkitUtil.getWorld(plot.getWorldName()), plot, dir));
+    }
+
+    @Override
     public boolean callAutoMerge(Plot plot, ArrayList<PlotId> plots) {
         return callEvent(new PlotAutoMergeEvent(BukkitUtil.getWorld(plot.getWorldName()), plot, plots));
     }
