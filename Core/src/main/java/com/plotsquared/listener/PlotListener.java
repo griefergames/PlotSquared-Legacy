@@ -51,11 +51,11 @@ public class PlotListener {
                 Optional<String> greetingFlag = plot.getFlag(Flags.GREETING);
                 if (greetingFlag.isPresent()) {
                     greeting = greetingFlag.get();
-                    MainUtil.format(C.PREFIX_GREETING.s() + greeting, plot, player, false, new RunnableVal<String>() {
+                    MainUtil.format( greeting, plot, player, false, new RunnableVal<String>() {
                         @Override
                         public void run(String value) {
-                            for (String text : greeting.split("\\\\n")) {
-                                player.sendNormalMessage(C.PREFIX.s() + C.PREFIX_GREETING.s().replace("%id%", plot.getId().toString()) + C.color(text));
+                            for (String text : value.split("\\\\n")) {
+                                player.sendNormalMessage("§8[§6Greeting§8] §7" + C.color(text));
                             }
                         }
                     });
@@ -202,11 +202,11 @@ public class PlotListener {
             }
             Optional<String> farewell = plot.getFlag(Flags.FAREWELL);
             if (farewell.isPresent()) {
-                MainUtil.format(C.PREFIX_FAREWELL.s() + farewell.get(), plot, player, false, new RunnableVal<String>() {
+                MainUtil.format(farewell.get(), plot, player, false, new RunnableVal<String>() {
                     @Override
                     public void run(String value) {
-                        for (String text : farewell.get().split("\\\\n")) {
-                            player.sendNormalMessage(C.PREFIX.s() + C.PREFIX_GREETING.s().replace("%id%", plot.getId().toString()) + C.color(text));
+                        for (String text : value.split("\\\\n")) {
+                            player.sendNormalMessage("§8[§6Farewell§8] §7" + C.color(text));
                         }
                     }
                 });
