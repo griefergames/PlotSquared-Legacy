@@ -6,11 +6,7 @@ import com.intellectualcrafters.plot.config.Settings;
 import com.intellectualcrafters.plot.flag.Flag;
 import com.intellectualcrafters.plot.flag.FlagManager;
 import com.intellectualcrafters.plot.flag.Flags;
-import com.intellectualcrafters.plot.object.Location;
-import com.intellectualcrafters.plot.object.Plot;
-import com.intellectualcrafters.plot.object.PlotArea;
-import com.intellectualcrafters.plot.object.PlotPlayer;
-import com.intellectualcrafters.plot.object.RunnableVal;
+import com.intellectualcrafters.plot.object.*;
 import com.intellectualcrafters.plot.util.*;
 import com.intellectualcrafters.plot.util.expiry.ExpireManager;
 
@@ -58,7 +54,9 @@ public class PlotListener {
                     MainUtil.format(C.PREFIX_GREETING.s() + greeting, plot, player, false, new RunnableVal<String>() {
                         @Override
                         public void run(String value) {
-                            MainUtil.sendMessage(player, value);
+                            for (String text : greeting.split("\\\\n")) {
+                                player.sendNormalMessage(C.PREFIX.s() + C.PREFIX_GREETING.s().replace("%id%", plot.getId().toString()) + C.color(text));
+                            }
                         }
                     });
                 } else {
@@ -207,7 +205,9 @@ public class PlotListener {
                 MainUtil.format(C.PREFIX_FAREWELL.s() + farewell.get(), plot, player, false, new RunnableVal<String>() {
                     @Override
                     public void run(String value) {
-                        MainUtil.sendMessage(player, value);
+                        for (String text : farewell.get().split("\\\\n")) {
+                            player.sendNormalMessage(C.PREFIX.s() + C.PREFIX_GREETING.s().replace("%id%", plot.getId().toString()) + C.color(text));
+                        }
                     }
                 });
             }

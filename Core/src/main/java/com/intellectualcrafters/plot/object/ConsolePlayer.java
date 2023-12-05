@@ -70,7 +70,12 @@ public class ConsolePlayer extends PlotPlayer {
     public void sendMessage(String message) {
         PS.log(message);
     }
-    
+
+    @Override
+    public void sendNormalMessage(String message) {
+        PS.log(message);
+    }
+
     @Override
     public void teleport(Location location) {
         setMeta("lastplot", location.getPlot());

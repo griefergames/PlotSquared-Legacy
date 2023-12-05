@@ -161,7 +161,12 @@ public class BukkitPlayer extends PlotPlayer {
             this.player.sendMessage(message);
         }
     }
-    
+
+    @Override
+    public void sendNormalMessage(String message) {
+        this.player.sendMessage(message);
+    }
+
     @Override
     public void teleport(Location location) {
         if (Math.abs(location.getX()) >= 30000000 || Math.abs(location.getZ()) >= 30000000) {

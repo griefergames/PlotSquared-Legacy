@@ -10,6 +10,8 @@ public interface CommandCaller {
      */
     void sendMessage(String message);
 
+    void sendNormalMessage(String message);
+
     /**
      * Check the player's permissions. <i>Will be cached if permission caching is enabled.</i>
      * @param permission the name of the permission
