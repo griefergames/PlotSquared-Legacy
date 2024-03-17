@@ -87,7 +87,14 @@ public class BukkitPlotGenerator extends ChunkGenerator implements GeneratorWrap
                             int x = MainUtil.x_loc[i][j];
                             int y = MainUtil.y_loc[i][j];
                             int z = MainUtil.z_loc[i][j];
-                            c.getBlock(x, y, z).setData(section[j]);
+                            try {
+                                c.getBlock(x, y, z).setData(section[j]);
+                            } catch (Throwable t) {
+                                System.out.println("Error setting block at " + x + ", " + y + ", " + z + " in chunk " + c.getX() + ", " + c.getZ() + " in world " + world.getName());
+                                System.out.println("Section: " + i + " Block: " + j);
+                                System.out.println("Data: " + section[j] + " (" + (section[j] & 0xFF) + ")");
+                                t.printStackTrace();
+                            }
                         }
                     }
                 }
