@@ -354,9 +354,9 @@ public class Config {
      */
     private static void setAccessible(Field field) throws NoSuchFieldException, IllegalAccessException {
         field.setAccessible(true);
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
+        /*Field modifiersField = Field.class.getDeclaredField("modifiers");
         modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);*/
     }
 
     /**
