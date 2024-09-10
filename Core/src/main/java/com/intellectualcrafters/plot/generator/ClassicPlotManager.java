@@ -241,6 +241,52 @@ public class ClassicPlotManager extends SquarePlotManager {
         return true;
     }
 
+    public boolean setWallTop(PlotArea plotArea, PlotId plotId, PlotBlock[] blocks) {
+        ClassicPlotWorld dpw = (ClassicPlotWorld) plotArea;
+        if (dpw.ROAD_WIDTH == 0) {
+            return false;
+        }
+        Plot plot = plotArea.getPlotAbs(plotId);
+        Location bot = plot.getExtendedBottomAbs().subtract(plot.getMerged(3) ? 0 : 1, 0, plot.getMerged(0) ? 0 : 1);
+        Location top = plot.getExtendedTopAbs().add(1, 0, 1);
+        PseudoRandom random = new PseudoRandom();
+        LocalBlockQueue queue = plotArea.getQueue(false);
+        if (!plot.getMerged(0)) {
+            int z = bot.getZ();
+            for (int x = bot.getX(); x < top.getX(); x++) {
+                for (int y = dpw.WALL_HEIGHT+2; y < dpw.MAX_BUILD_HEIGHT; y++) {
+                    queue.setBlock(x, y, z, blocks[random.random(blocks.length)]);
+                }
+            }
+        }
+        if (!plot.getMerged(3)) {
+            int x = bot.getX();
+            for (int z = bot.getZ(); z < top.getZ(); z++) {
+                for (int y = dpw.WALL_HEIGHT+2; y < dpw.MAX_BUILD_HEIGHT; y++) {
+                    queue.setBlock(x, y, z, blocks[random.random(blocks.length)]);
+                }
+            }
+        }
+        if (!plot.getMerged(2)) {
+            int z = top.getZ();
+            for (int x = bot.getX(); x < top.getX() + (plot.getMerged(1) ? 0 : 1); x++) {
+                for (int y = dpw.WALL_HEIGHT+2; y < dpw.MAX_BUILD_HEIGHT; y++) {
+                    queue.setBlock(x, y, z, blocks[random.random(blocks.length)]);
+                }
+            }
+        }
+        if (!plot.getMerged(1)) {
+            int x = top.getX();
+            for (int z = bot.getZ(); z < top.getZ() + (plot.getMerged(2) ? 0 : 1); z++) {
+                for (int y = dpw.WALL_HEIGHT+2; y < dpw.MAX_BUILD_HEIGHT; y++) {
+                    queue.setBlock(x, y, z, blocks[random.random(blocks.length)]);
+                }
+            }
+        }
+        queue.enqueue();
+        return true;
+    }
+
     public boolean setWall(PlotArea plotArea, PlotId plotId, PlotBlock[] blocks) {
         ClassicPlotWorld dpw = (ClassicPlotWorld) plotArea;
         if (dpw.ROAD_WIDTH == 0) {

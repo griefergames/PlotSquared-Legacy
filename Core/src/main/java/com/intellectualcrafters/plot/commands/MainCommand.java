@@ -99,6 +99,7 @@ public class MainCommand extends Command {
             new BO3();
             new Middle();
             new Grant();
+            new Extract();
             // Set commands
             new Owner();
             new Desc();

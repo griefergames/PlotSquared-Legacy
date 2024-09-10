@@ -13,6 +13,8 @@ import com.intellectualcrafters.plot.database.DBFunc;
 import com.intellectualcrafters.plot.flag.Flag;
 import com.intellectualcrafters.plot.flag.FlagManager;
 import com.intellectualcrafters.plot.flag.Flags;
+import com.intellectualcrafters.plot.generator.ClassicPlotManager;
+import com.intellectualcrafters.plot.generator.ClassicPlotWorld;
 import com.intellectualcrafters.plot.generator.SquarePlotWorld;
 import com.intellectualcrafters.plot.util.*;
 import com.intellectualcrafters.plot.util.block.GlobalBlockQueue;
@@ -994,7 +996,7 @@ public class Plot {
                     manager.createRoadEast(current.area, current);
                     if (current.getMerged(2)) {
                         manager.createRoadSouth(current.area, current);
-                        if (current.getMerged(5)) {
+                        if(current.getMerged(5)) {
                             manager.createRoadSouthEast(current.area, current);
                         }
                     }
@@ -1019,6 +1021,86 @@ public class Plot {
         if (createRoad) {
             manager.finishPlotUnlink(this.area, ids);
         }
+        return true;
+    }
+
+    public void surroundRoadIfMerged() {
+        PlotManager manager = this.area.getPlotManager();
+
+        //N-O-S-W
+        if(this.getMerged(0)) {
+            Plot northPlot = getRelative(0);
+            manager.createRoadSouth(northPlot.area, northPlot);
+        }
+        if(this.getMerged(1)) {
+            manager.createRoadEast(this.area, this);
+        }
+        if(this.getMerged(2)) {
+            manager.createRoadSouth(this.area, this);
+        }
+        if(this.getMerged(3)) {
+            Plot westPlot = getRelative(3);
+            manager.createRoadEast(westPlot.area, westPlot);
+        }
+
+        //NO-OS-SW-WN
+        if(this.getMerged(4)) {
+            Plot northPlot = getRelative(0);
+            manager.createRoadSouthEast(northPlot.area, northPlot);
+        }
+        if(this.getMerged(5)) {
+            manager.createRoadSouthEast(this.area, this);
+        }
+        if(this.getMerged(6)) {
+            Plot westPlot = getRelative(3);
+            manager.createRoadSouthEast(westPlot.area, westPlot);
+        }
+        if(this.getMerged(7)) {
+            Plot northWestPlot = getRelative(0).getRelative(3);
+            manager.createRoadSouthEast(northWestPlot.area, northWestPlot);
+        }
+
+    }
+
+    public boolean unlinkSinglePlot(boolean createRoad, boolean createSign) {
+        boolean[] merged = this.getMerged();
+
+        final Set<Plot> plots = this.getConnectedPlots();
+        ArrayList<PlotId> ids = new ArrayList<>(plots.size());
+        for (Plot current : plots) {
+            current.setHome(null);
+            ids.add(current.getId());
+        }
+
+        PlotManager manager = this.area.getPlotManager();
+        //manager.startPlotUnlink(this.area, ids);
+
+        this.surroundRoadIfMerged();
+
+        for(int i = 0; i < 4; i++) {
+            if(!merged[i]) continue;
+            Plot adjacentPlot = this.area.getPlotAbs(this.id.getRelative(i));
+
+            if(adjacentPlot == null || !adjacentPlot.hasOwner()) continue;
+
+            boolean[] adjacentMerged = adjacentPlot.getMerged();
+            adjacentMerged[(i+2)%4] = false;
+            adjacentPlot.setMerged(adjacentMerged);
+        }
+        this.setMerged(new boolean[] {false, false, false, false});
+
+        manager.finishPlotMerge(this.area, ids);
+        //manager.finishPlotUnlink(this.area, ids);
+
+        if(manager instanceof ClassicPlotManager) {
+            ClassicPlotManager c = (ClassicPlotManager) manager;
+            for(int i = 0; i < 4; i++) {
+                if(!merged[i]) continue;
+                Plot adjacentPlot = this.area.getPlotAbs(this.id.getRelative(i));
+                c.setWallTop(adjacentPlot.area, adjacentPlot.id, new PlotBlock[]{PlotBlock.get(0, 0)});
+            }
+        }
+
         return true;
     }
 
