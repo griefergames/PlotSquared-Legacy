@@ -2658,6 +2658,10 @@ public class Plot {
         Plot current;
         while ((current = frontier.poll()) != null) {
             if (current.owner == null || current.settings == null) {
+                if(this.owner != null) {
+                    PS.debug("Fixing invalid merge (owner): " + current + " | " + this.owner);
+                    current.setOwner(this.owner);
+                }
                 // Invalid plot
                 // merged onto unclaimed plot
                 PS.debug("Ignoring invalid merged plot: " + current + " | " + current.owner);

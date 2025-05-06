@@ -74,6 +74,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://maven.enginehub.org/repo/" }
+        maven { url "https://repo.extendedclip.com/releases/"}
     }
 }
 task aggregatedJavadocs(type: Javadoc, description: 'Generate javadocs from all child projects as if it was a single project', group: 'Documentation') {
