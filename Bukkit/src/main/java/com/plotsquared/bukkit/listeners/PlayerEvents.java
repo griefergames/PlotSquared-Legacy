@@ -778,6 +778,7 @@ public class PlayerEvents extends PlotListener implements Listener {
             } else if (!plotEntry(pp, now) && this.tmpTeleport) {
                 MainUtil.sendMessage(pp, C.NO_PERMISSION_EVENT, C.PERMISSION_ADMIN_ENTRY_DENIED);
                 this.tmpTeleport = false;
+                to.setWorld(from.getWorld());
                 to.setX(from.getBlockX());
                 to.setY(from.getBlockY());
                 to.setZ(from.getBlockZ());
@@ -837,6 +838,7 @@ public class PlayerEvents extends PlotListener implements Listener {
                 MainUtil.sendMessage(pp, C.NO_PERMISSION_EVENT, C.PERMISSION_ADMIN_ENTRY_DENIED);
                 this.tmpTeleport = false;
                 player.teleport(from);
+                to.setWorld(from.getWorld());
                 to.setX(from.getBlockX());
                 to.setY(from.getBlockY());
                 to.setZ(from.getBlockZ());
