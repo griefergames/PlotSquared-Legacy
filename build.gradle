@@ -4,10 +4,12 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url = "https://plugins.gradle.org/m2/" }
         jcenter()
     }
     dependencies {
         classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+        classpath 'net.linguica.gradle:maven-settings-plugin:0.5'
     }
     configurations.all {
         resolutionStrategy {
@@ -77,6 +79,22 @@ subprojects {
         maven { url "https://repo.extendedclip.com/releases/"}
     }
 }
+subprojects {
+    apply plugin: 'maven-publish'
+    apply plugin: 'net.linguica.maven-settings'
+
+    afterEvaluate {
+        publishing {
+            repositories {
+                maven {
+                    name = "github"
+                    url = uri("https://maven.pkg.github.com/griefergames/PlotSquared-Legacy")
+                }
+            }
+        }
+    }
+}
+
 task aggregatedJavadocs(type: Javadoc, description: 'Generate javadocs from all child projects as if it was a single project', group: 'Documentation') {
     destinationDir = file("./docs/javadoc")
     title = "$project.name $version API"

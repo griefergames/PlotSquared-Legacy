@@ -4,13 +4,20 @@ repositories {
     maven { url = "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url = "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
     maven { url = "https://repo.extendedclip.com/releases/"}
+    maven {
+        // Private Repository for dependencies published by us (e.g. from other projects)
+        name = "github"
+        setUrl("https://maven.pkg.github.com/griefergames/repo")
+    }
     mavenLocal()
 }
 
 dependencies {
     implementation(project(":Core"))
     compile(project(":Core"))
-    implementation("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
+    implementation("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT") {
+        exclude group: 'net.md-5', module: 'bungeecord-chat'
+    }
     implementation("com.github.MilkBowl:VaultAPI:1.7") {
         exclude module: 'bukkit'
     }
@@ -80,3 +87,38 @@ shadowJar.doLast {
 build.dependsOn(shadowJar)
 build.finalizedBy(copyFiles)
 copyFiles.dependsOn(createPom)
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId    = rootProject.group
+            artifactId = "plotsquared-bukkit"
+            version    = rootProject.version
+
+            artifact(shadowJar) {
+                classifier = ""
+            }
+
+            pom {
+                name        = "PlotSquared Bukkit"
+                description = "PlotSquared Bukkit implementation"
+                url         = "https://github.com/griefergames/PlotSquared-Legacy"
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url  = "https://www.gnu.org/licenses/gpl-3.0.html"
+                    }
+                }
+                withXml {
+                    def deps = asNode().appendNode("dependencies")
+                    def dep  = deps.appendNode("dependency")
+                    dep.appendNode("groupId",    rootProject.group)
+                    dep.appendNode("artifactId", "plotsquared-api")
+                    dep.appendNode("version",    rootProject.version)
+                    dep.appendNode("scope",      "compile")
+                }
+            }
+        }
+    }
+}
+

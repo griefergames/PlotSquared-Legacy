@@ -52,3 +52,27 @@ task copyFiles {
 
 build.finalizedBy(copyFiles)
 copyFiles.dependsOn(createPom)
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId    = rootProject.group
+            artifactId = "plotsquared-core"
+            version    = rootProject.version
+
+            from components.java
+
+            pom {
+                name        = "PlotSquared Core"
+                description = "PlotSquared Core API"
+                url         = "https://github.com/griefergames/PlotSquared-Legacy"
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url  = "https://www.gnu.org/licenses/gpl-3.0.html"
+                    }
+                }
+            }
+        }
+    }
+}
