@@ -113,7 +113,7 @@ publishing {
                     def deps = asNode().appendNode("dependencies")
                     def dep  = deps.appendNode("dependency")
                     dep.appendNode("groupId",    rootProject.group)
-                    dep.appendNode("artifactId", "plotsquared-api")
+                    dep.appendNode("artifactId", "plotsquared-core")
                     dep.appendNode("version",    rootProject.version)
                     dep.appendNode("scope",      "compile")
                 }
