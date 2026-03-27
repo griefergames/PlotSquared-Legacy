@@ -6,6 +6,7 @@ import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.*;
 import com.plotsquared.bukkit.util.BukkitUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.WeatherType;
@@ -285,6 +286,12 @@ public class BukkitPlayer extends PlotPlayer {
     @Override
     public void kick(String message) {
         this.player.kickPlayer(message);
+    }
+
+    @Override
+    public boolean canSee(PlotPlayer otherPlayer) {
+        Player otherBukkitPlayer = Bukkit.getPlayer(otherPlayer.getUUID());
+        return otherBukkitPlayer != null && this.player.canSee(otherBukkitPlayer);
     }
 
     @Override public void stopSpectating() {

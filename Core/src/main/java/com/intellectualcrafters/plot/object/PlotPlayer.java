@@ -426,6 +426,8 @@ public abstract class PlotPlayer implements CommandCaller, OfflinePlotPlayer {
      */
     public abstract void kick(String message);
 
+    public abstract boolean canSee(PlotPlayer otherPlayer);
+
     /**
      * Called when this player quits.
      */

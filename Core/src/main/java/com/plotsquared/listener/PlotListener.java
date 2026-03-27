@@ -67,7 +67,7 @@ public class PlotListener {
                     if (!Permissions.hasPermission(player, "plots.flag.notify-enter.bypass")) {
                         for (UUID uuid : plot.getOwners()) {
                             PlotPlayer owner = UUIDHandler.getPlayer(uuid);
-                            if (owner != null && !owner.getUUID().equals(player.getUUID())) {
+                            if (owner != null && !owner.getUUID().equals(player.getUUID()) && owner.canSee(player)) {
                                 MainUtil.sendMessage(owner,
                                         C.NOTIFY_ENTER.s().replace("%player", player.getName()).replace("%plot", plot.getId().toString()));
                             }
@@ -216,7 +216,7 @@ public class PlotListener {
                 if (!Permissions.hasPermission(player, "plots.flag.notify-enter.bypass")) {
                     for (UUID uuid : plot.getOwners()) {
                         PlotPlayer owner = UUIDHandler.getPlayer(uuid);
-                        if ((owner != null) && !owner.getUUID().equals(player.getUUID())) {
+                        if ((owner != null) && !owner.getUUID().equals(player.getUUID()) && owner.canSee(player)) {
                             MainUtil.sendMessage(owner, C.NOTIFY_LEAVE.s().replace("%player", player.getName()).replace("%plot", plot.getId()
                                     .toString()));
                         }

@@ -139,6 +139,11 @@ public class ConsolePlayer extends PlotPlayer {
     @Override
     public void kick(String message) {}
 
+    @Override
+    public boolean canSee(PlotPlayer otherPlayer) {
+        return true;
+    }
+
     @Override public void stopSpectating() {}
 
     @Override
