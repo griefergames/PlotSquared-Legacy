@@ -1663,6 +1663,10 @@ public class PlayerEvents extends PlotListener implements Listener {
                     case MAGENTA_SHULKER_BOX:
                     case COMMAND_REPEATING:
                     case COMMAND_CHAIN:
+                        if (blockType == Material.CHEST && player.hasMetadata("ggplots.allow_chest_interact")) {
+                            return;
+                        }
+
                         eventType = PlayerBlockEventType.INTERACT_BLOCK;
                         break;
                     case DRAGON_EGG:
