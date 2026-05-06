@@ -4,6 +4,7 @@ import com.intellectualcrafters.plot.config.C;
 import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
+import com.intellectualcrafters.plot.util.EventUtil;
 import com.intellectualcrafters.plot.util.Permissions;
 import com.plotsquared.general.commands.CommandDeclaration;
 
@@ -41,6 +42,8 @@ public class Extract extends SubCommand {
         if(!plot.unlinkSinglePlot(true, true)) {
             return sendMessage(player, C.UNLINK_IMPOSSIBLE);
         }
+
+        EventUtil.manager.callExtract(player, plot);
 
         return sendMessage(player, C.UNLINK_SUCCESS);
     }

@@ -120,6 +120,11 @@ public class BukkitEventUtil extends EventUtil {
     }
 
     @Override
+    public void callExtract(PlotPlayer initiator, Plot plot) {
+        callEvent(new PlotExtractSuccessEvent(plot, initiator, getPlayer(initiator)));
+    }
+
+    @Override
     public boolean callFlagRemove(Flag flag, Object object, PlotCluster cluster) {
         return callEvent(new ClusterFlagRemoveEvent(flag, cluster));
     }

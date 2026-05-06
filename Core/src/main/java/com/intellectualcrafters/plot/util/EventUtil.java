@@ -77,6 +77,8 @@ import static com.plotsquared.listener.PlayerBlockEventType.*;
     public abstract boolean callOwnerChange(PlotPlayer initiator, Plot plot, UUID newOwner,
         UUID oldOwner, boolean hasOldOwner);
 
+    public abstract void callExtract(PlotPlayer initiator, Plot plot);
+
     public void doJoinTask(final PlotPlayer player) {
         if (player == null) {
             return; //possible future warning message to figure out where we are retrieving null
