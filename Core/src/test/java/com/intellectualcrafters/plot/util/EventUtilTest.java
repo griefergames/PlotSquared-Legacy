@@ -10,6 +10,7 @@ import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.object.Rating;
 
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 public class EventUtilTest extends EventUtil {
@@ -77,5 +78,5 @@ public class EventUtilTest extends EventUtil {
 
     @Override public boolean callOwnerChange(PlotPlayer initiator, Plot plot, UUID newOwner, UUID oldOwner, boolean hasOldOwner) {return false;}
 
-    @Override public void callExtract(PlotPlayer initiator, Plot plot) {}
+    @Override public void callExtract(PlotPlayer initiator, Plot plot, Set<Plot> previousConnectedPlots) {}
 }

@@ -18,6 +18,7 @@ import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 public class BukkitEventUtil extends EventUtil {
@@ -120,8 +121,8 @@ public class BukkitEventUtil extends EventUtil {
     }
 
     @Override
-    public void callExtract(PlotPlayer initiator, Plot plot) {
-        callEvent(new PlotExtractSuccessEvent(plot, initiator, getPlayer(initiator)));
+    public void callExtract(PlotPlayer initiator, Plot plot, Set<Plot> previousConnectedPlots) {
+        callEvent(new PlotExtractSuccessEvent(plot, initiator, getPlayer(initiator), previousConnectedPlots));
     }
 
     @Override

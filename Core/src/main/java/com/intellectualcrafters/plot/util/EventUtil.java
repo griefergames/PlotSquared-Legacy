@@ -22,6 +22,7 @@ import com.plotsquared.listener.PlayerBlockEventType;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static com.plotsquared.listener.PlayerBlockEventType.*;
@@ -77,7 +78,7 @@ import static com.plotsquared.listener.PlayerBlockEventType.*;
     public abstract boolean callOwnerChange(PlotPlayer initiator, Plot plot, UUID newOwner,
         UUID oldOwner, boolean hasOldOwner);
 
-    public abstract void callExtract(PlotPlayer initiator, Plot plot);
+    public abstract void callExtract(PlotPlayer initiator, Plot plot, Set<Plot> previousConnectedPlots);
 
     public void doJoinTask(final PlotPlayer player) {
         if (player == null) {

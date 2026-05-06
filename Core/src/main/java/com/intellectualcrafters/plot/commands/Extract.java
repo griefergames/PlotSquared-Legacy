@@ -6,6 +6,9 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.EventUtil;
 import com.intellectualcrafters.plot.util.Permissions;
+
+import java.util.HashSet;
+import java.util.Set;
 import com.plotsquared.general.commands.CommandDeclaration;
 
 @CommandDeclaration(
@@ -39,11 +42,13 @@ public class Extract extends SubCommand {
             return sendMessage(player, C.UNLINK_IMPOSSIBLE);
         }
 
+        Set<Plot> previousConnectedPlots = new HashSet<>(plot.getConnectedPlots());
+
         if(!plot.unlinkSinglePlot(true, true)) {
             return sendMessage(player, C.UNLINK_IMPOSSIBLE);
         }
 
-        EventUtil.manager.callExtract(player, plot);
+        EventUtil.manager.callExtract(player, plot, previousConnectedPlots);
 
         return sendMessage(player, C.UNLINK_SUCCESS);
     }
