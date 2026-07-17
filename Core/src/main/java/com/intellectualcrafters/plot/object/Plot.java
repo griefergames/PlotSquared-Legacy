@@ -877,10 +877,14 @@ public class Plot {
         final HashSet<RegionWrapper> regions = this.getRegions();
         final Set<Plot> plots = this.getConnectedPlots();
         final ArrayDeque<Plot> queue = new ArrayDeque<>(plots);
-        if (isDelete) {
-            this.removeSign();
-        }
         this.unlinkPlot(true, !isDelete);
+        if (isDelete) {
+            GlobalBlockQueue.IMP.addTask(() -> {
+                for (Plot current : plots) {
+                    current.removeSign();
+                }
+            });
+        }
         final PlotManager manager = this.area.getPlotManager();
         Runnable run = new Runnable() {
             @Override public void run() {
