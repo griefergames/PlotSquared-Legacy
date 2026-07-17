@@ -785,6 +785,7 @@ public class MainUtil {
         info = info.replace("%seen%", seen);
         info = info.replace("%flags%", flags);
         info = info.replace("%build%", String.valueOf(build));
+        info = info.replace("%size%", String.valueOf(plot.getConnectedPlots().size()));
         info = info.replace("%desc%", "No description set.");
         if (info.contains("%rating%")) {
             final String newInfo = info;
