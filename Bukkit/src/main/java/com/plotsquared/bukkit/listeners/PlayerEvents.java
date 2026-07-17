@@ -868,6 +868,11 @@ public class PlayerEvents extends PlotListener implements Listener {
             return;
         }
 
+        String message = event.getMessage();
+        if (message.startsWith("@")) { // Globalchat
+            return;
+        }
+
         PlotPlayer plotPlayer = BukkitUtil.getPlayer(event.getPlayer());
         Location location = plotPlayer.getLocation();
         PlotArea area = location.getPlotArea();
@@ -879,7 +884,6 @@ public class PlayerEvents extends PlotListener implements Listener {
             return;
         }
         event.setCancelled(true);
-        String message = event.getMessage();
         String format = C.PLOT_CHAT_FORMAT.s();
         String sender = event.getPlayer().getDisplayName();
         PlotId id = plot.getId();
