@@ -697,9 +697,15 @@ public abstract class PlotArea {
             }
             currentId = new PlotId(center.x + start.x, center.y + start.y);
             Plot plot = getPlotAbs(currentId);
-            if (plot != null && plot.canClaim(player)) {
-                setMeta("lastPlot", currentId);
-                return plot;
+            if (plot != null) {
+                try {
+                    if (plot.canClaim(player)) {
+                        setMeta("lastPlot", currentId);
+                        return plot;
+                    }
+                } catch (Throwable cause) {
+                    PS.log("Error checking plot " + currentId + " - skipping: " + cause.getMessage());
+                }
             }
         }
         return null;
