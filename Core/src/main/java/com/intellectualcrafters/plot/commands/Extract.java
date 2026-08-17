@@ -43,7 +43,7 @@ public class Extract extends SubCommand {
         }
 
         Set<Plot> previousConnectedPlots = new HashSet<>(plot.getConnectedPlots());
-        boolean createRoad = args.length != 1 || !args[0].equalsIgnoreCase("noroad");
+        boolean createRoad = args.length != 1 || !args[0].equalsIgnoreCase("false");
 
         if (!plot.unlinkSinglePlot(createRoad, true)) {
             return sendMessage(player, C.UNLINK_IMPOSSIBLE);
