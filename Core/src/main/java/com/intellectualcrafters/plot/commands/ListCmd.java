@@ -355,16 +355,16 @@ public class ListCmd extends SubCommand {
                     color = "$1";
                 }
                 PlotMessage trusted =
-                        new PlotMessage().text(C.color(C.PLOT_INFO_TRUSTED.s().replaceAll("%trusted%", MainUtil.getPlayerList(plot.getTrusted()))))
+                        new PlotMessage().text(C.color(C.PLOT_INFO_TRUSTED.s().replace("%trusted%", MainUtil.getPlayerList(plot.getTrusted()))))
                                 .color("$1");
                 PlotMessage members =
-                        new PlotMessage().text(C.color(C.PLOT_INFO_MEMBERS.s().replaceAll("%members%", MainUtil.getPlayerList(plot.getMembers()))))
+                        new PlotMessage().text(C.color(C.PLOT_INFO_MEMBERS.s().replace("%members%", MainUtil.getPlayerList(plot.getMembers()))))
                                 .color("$1");
                 String strFlags = StringMan.join(plot.getFlags().values(), ",");
                 if (strFlags.isEmpty()) {
                     strFlags = C.NONE.s();
                 }
-                PlotMessage flags = new PlotMessage().text(C.color(C.PLOT_INFO_FLAGS.s().replaceAll("%flags%", strFlags))).color("$1");
+                PlotMessage flags = new PlotMessage().text(C.color(C.PLOT_INFO_FLAGS.s().replace("%flags%", strFlags))).color("$1");
                 message.text("[").color("$3").text(i + "").command("/plot visit " + plot.getArea() + ";" + plot.getId())
                         .tooltip("/plot visit " + plot.getArea() + ";" + plot.getId()).color("$1")
                         .text("]")
