@@ -1079,7 +1079,9 @@ public class Plot {
         PlotManager manager = this.area.getPlotManager();
         //manager.startPlotUnlink(this.area, ids);
 
-        this.surroundRoadIfMerged();
+        if (createRoad) {
+            this.surroundRoadIfMerged();
+        }
 
         for(int i = 0; i < 4; i++) {
             if(!merged[i]) continue;
@@ -1093,15 +1095,17 @@ public class Plot {
         }
         this.setMerged(new boolean[] {false, false, false, false});
 
-        manager.finishPlotMerge(this.area, ids);
-        //manager.finishPlotUnlink(this.area, ids);
+        if (createRoad) {
+            manager.finishPlotMerge(this.area, ids);
+            //manager.finishPlotUnlink(this.area, ids);
 
-        if(manager instanceof ClassicPlotManager) {
-            ClassicPlotManager c = (ClassicPlotManager) manager;
-            for(int i = 0; i < 4; i++) {
-                if(!merged[i]) continue;
-                Plot adjacentPlot = this.area.getPlotAbs(this.id.getRelative(i));
-                c.setWallTop(adjacentPlot.area, adjacentPlot.id, new PlotBlock[]{PlotBlock.get(0, 0)});
+            if(manager instanceof ClassicPlotManager) {
+                ClassicPlotManager c = (ClassicPlotManager) manager;
+                for(int i = 0; i < 4; i++) {
+                    if(!merged[i]) continue;
+                    Plot adjacentPlot = this.area.getPlotAbs(this.id.getRelative(i));
+                    c.setWallTop(adjacentPlot.area, adjacentPlot.id, new PlotBlock[]{PlotBlock.get(0, 0)});
+                }
             }
         }
 
