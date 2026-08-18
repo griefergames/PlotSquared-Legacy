@@ -3096,10 +3096,10 @@ public class Plot {
                         lesserPlot.removeRoadSouthEast();
                     }
                     lesserPlot.removeRoadEast();
-                }
-                Plot below = greaterPlot.getRelative(0);
-                if (below.getMerged(6)) {
-                    below.getRelative(3).removeRoadSouthEast();
+                    Plot below = greaterPlot.getRelative(0);
+                    if (below.getMerged(6)) {
+                        below.getRelative(3).removeRoadSouthEast();
+                    }
                 }
             }
         }
