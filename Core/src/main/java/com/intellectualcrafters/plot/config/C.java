@@ -161,6 +161,7 @@ public enum C {
     PERMISSION_ALIAS_SET_OBSOLETE("plots.set.alias", "static.permissions"), // Note this is for backwards compatibility
     PERMISSION_ALIAS_SET("plots.alias.set", "static.permissions"),
     PERMISSION_ALIAS_REMOVE("plots.alias.remove", "static.permissions"),
+    PERMISSION_ALIAS_OTHER("plots.alias.other", "static.permissions"),
 
     /*
      * Static console

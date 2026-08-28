@@ -41,7 +41,7 @@ public class Alias extends SubCommand {
             return false;
         }
         
-        if (!plot.isOwner(player.getUUID())) {
+        if (!plot.isOwner(player.getUUID()) && !Permissions.hasPermission(player, C.PERMISSION_ALIAS_OTHER)) {
             MainUtil.sendMessage(player, C.NO_PLOT_PERMS);
             return false;
         }
